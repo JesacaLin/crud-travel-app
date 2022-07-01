@@ -1,15 +1,27 @@
 const express = require("express");
+const morgan = require("morgan");
+const mongoose = require("mongoose");
 
 //express app
 const app = express();
+
+//connect to MongoDB
+const dburi =
+  "mongodb+srv://travelbuddy:3YwX0uPP7a4fT4Oh@cluster0.wgsikhw.mongodb.net/?retryWrites=true&w=majority";
+
+mongoose
+  .connect(dburi, { useUnifiedTopology: true })
+  .then((result) => app.listen(3000))
+  .catch((err) => console.log(err));
 
 //register view engine
 app.set("view engine", "ejs");
 //tell the view engine where to look.
 app.set("views", "pages");
 
-//listen for requests
-app.listen(3000);
+//middleware & static files
+app.use(express.static("public"));
+app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
   const plans = [
