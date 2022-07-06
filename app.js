@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const Post = require("./models/post");
 
 //express app
 const app = express();
@@ -23,20 +24,29 @@ app.set("views", "pages");
 app.use(express.static("public"));
 app.use(morgan("dev"));
 
+//routes
 app.get("/", (req, res) => {
-  const plans = [
-    { title: "Italy", snippet: "Lorem ipsum dolar sit amet consectetur" },
-    { title: "Portugal", snippet: "Lorem ipsum dolar sit amet consectetur" },
-    { title: "Iceland", snippet: "Lorem ipsum dolar sit amet consectetur" },
-  ];
-  res.render("index", { title: "Home", plans });
+  res.redirect(".models/posts");
 });
 
 app.get("/about", (req, res) => {
   res.render("about", { title: "About" });
 });
 
-app.get("/itinerary/create", (req, res) => {
+//post routes
+
+app.get("/posts", (req, res) => {
+  Post.find()
+    .sort({ createdAt: -1 })
+    .then((result) => {
+      res.render("index", { title: "All Posts", posts: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.get("/plans/create", (req, res) => {
   res.render("create", { title: "Create New Trip" });
 });
 

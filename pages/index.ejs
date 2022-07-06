@@ -2,19 +2,16 @@
 <html lang="en">
   <%- include('./partials/head.ejs') %>
   <body>
-   
     <%- include('./partials/nav.ejs') %>
 
     <div class="travel content">
       <h2>All Itineraries</h2>
-      <% if (plans.length > 0){ %> 
-        <% plans.forEach(plan => { %>
+      <% if (posts.length > 0){ %> <% posts.forEach(post => { %>
 
-      <h3 class="title"><%= plan.title %></h3>
-      <p class="snippet"><%= plan.snippet%></p>
+      <h3 class="title"><%= post.title %></h3>
+      <p class="snippet"><%= post.snippet%></p>
 
-      <% }) %> 
-      <% } else { %>
+      <% }) %> <% } else { %>
       <p>There are no itineraries to display...</p>
       <% } %>
     </div>
